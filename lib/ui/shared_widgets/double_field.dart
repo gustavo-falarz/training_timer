@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:training_timer/ui/shared_widgets/icons.dart';
 
-import '../../constants.dart';
+import '../../dimens.dart';
 
 class DoubleField extends StatelessWidget {
   final Function onTextChangedMin;
@@ -35,7 +35,6 @@ class DoubleField extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: const TextStyle(color: Colors.white),
             ),
           ),
         ),
@@ -58,7 +57,6 @@ class DoubleField extends StatelessWidget {
                 controller: _controllerMin,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(counter: SizedBox.shrink()),
-                style: const TextStyle(color: textColor),
                 keyboardType: TextInputType.number,
                 maxLength: 2,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -74,7 +72,6 @@ class DoubleField extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
                   ":",
-                  style: TextStyle(color: textColor),
                 ),
               ),
             ),
@@ -83,7 +80,6 @@ class DoubleField extends StatelessWidget {
                 controller: _controllerSec,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(counter: SizedBox.shrink()),
-                style: const TextStyle(color: textColor),
                 keyboardType: TextInputType.number,
                 maxLength: 2,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],

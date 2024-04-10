@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class DecIcon extends StatelessWidget {
-  const DecIcon({Key? key}) : super(key: key);
+  const DecIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(Icons.indeterminate_check_box, color: Colors.white);
+    return const Icon(Icons.indeterminate_check_box);
   }
 }
 
 class IncIcon extends StatelessWidget {
-  const IncIcon({Key? key}) : super(key: key);
+  const IncIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(Icons.add_box, color: Colors.white);
+    return const Icon(Icons.add_box);
   }
 }

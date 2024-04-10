@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:training_timer/constants.dart';
+import 'package:training_timer/dimens.dart';
 import 'package:training_timer/ui/shared_widgets/icons.dart';
 
 
@@ -29,7 +29,6 @@ class SingleField extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: const TextStyle(color: Colors.white),
             ),
           ),
         ),
@@ -54,7 +53,6 @@ class SingleField extends StatelessWidget {
                   decoration: const InputDecoration(
                     counter: SizedBox.shrink(),
                   ),
-                  style: const TextStyle(color: textColor),
                   keyboardType: TextInputType.number,
                   maxLength: 2,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],

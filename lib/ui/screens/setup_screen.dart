@@ -45,7 +45,16 @@ class _SetupTimerScreenState extends ConsumerState<SetupTimerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(ref.read(appLocalizationsProvider).appName),
+        centerTitle: true,
+        title: Text(ref.read(appLocalizationsProvider).titleSetup),
+      ),
+      floatingActionButton:
+      FloatingActionButton.extended(
+        onPressed: () {
+          _startCountDown(context);
+        },
+        label: Text(ref.read(appLocalizationsProvider).labelStart),
+        icon: const Icon(Icons.play_arrow),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
@@ -53,7 +62,7 @@ class _SetupTimerScreenState extends ConsumerState<SetupTimerScreen> {
           children: <Widget>[
             SingleField(
               initialValue: rounds,
-              label: ref.read(appLocalizationsProvider).roundAmountLabel,
+              label: ref.read(appLocalizationsProvider).labelRoundAmount,
               onTextChanged: (value) {
                 rounds = value;
               },
@@ -61,7 +70,7 @@ class _SetupTimerScreenState extends ConsumerState<SetupTimerScreen> {
             DoubleField(
               initialValueMin: roundMin,
               initialValueSec: roundSec,
-              label: ref.read(appLocalizationsProvider).roundDurationLabel,
+              label: ref.read(appLocalizationsProvider).labelRoundDuration,
               onTextChangedMin: (value) {
                 roundMin = value;
               },
@@ -72,7 +81,7 @@ class _SetupTimerScreenState extends ConsumerState<SetupTimerScreen> {
             DoubleField(
               initialValueMin: restMin,
               initialValueSec: restSec,
-              label: ref.read(appLocalizationsProvider).restDurationLabel,
+              label: ref.read(appLocalizationsProvider).labelRestDuration,
               onTextChangedMin: (value) {
                 restMin = value;
               },
@@ -82,34 +91,24 @@ class _SetupTimerScreenState extends ConsumerState<SetupTimerScreen> {
             ),
             SingleField(
               initialValue: delay,
-              label: ref.read(appLocalizationsProvider).delayDurationLabel,
+              label: ref.read(appLocalizationsProvider).labelDelayDuration,
               onTextChanged: (value) {
                 delay = value;
               },
             ),
             SingleField(
               initialValue: roundWarning,
-              label: ref.read(appLocalizationsProvider).roundWarningLabel,
+              label: ref.read(appLocalizationsProvider).labelRoundWarning,
               onTextChanged: (value) {
                 roundWarning = value;
               },
             ),
             SingleField(
               initialValue: restWarning,
-              label: ref.read(appLocalizationsProvider).restWarningLabel,
+              label: ref.read(appLocalizationsProvider).labelRestWarning,
               onTextChanged: (value) {
                 restWarning = value;
               },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
-              child: FilledButton.icon(
-                onPressed: () {
-                  startCountDown(context);
-                },
-                icon: const Icon(Icons.play_arrow),
-                label: Text(ref.read(appLocalizationsProvider).startLabel),
-              ),
             ),
           ],
         ),
@@ -117,7 +116,7 @@ class _SetupTimerScreenState extends ConsumerState<SetupTimerScreen> {
     );
   }
 
-  void startCountDown(BuildContext context) {
+  void _startCountDown(BuildContext context) {
     var data = TimerData(
         rounDuration: calcRound(),
         rest: calcRest(),

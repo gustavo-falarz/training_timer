@@ -3,6 +3,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../locale/localization.dart';
 import '../../model/interval_model.dart';
 
 class TimerScreen extends ConsumerStatefulWidget {
@@ -50,15 +51,15 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
   String _getIntervalName() {
     if (index == -1) {
-      return 'Prepare';
+      return ref.read(appLocalizationsProvider).labelPrepare;
     }
     switch (widget.intervals[index].type) {
       case IntervalType.rest:
-        return 'Rest';
+        return ref.read(appLocalizationsProvider).labelRest;
       case IntervalType.round:
-        return 'Round';
+        return ref.read(appLocalizationsProvider).labelRound;
       case IntervalType.delay:
-        return 'Prepare';
+        return ref.read(appLocalizationsProvider).labelPrepare;
     }
   }
 
@@ -66,7 +67,8 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Round timer'),
+        centerTitle: true,
+        title: Text(ref.read(appLocalizationsProvider).titleTimer),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
