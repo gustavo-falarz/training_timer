@@ -1,0 +1,13 @@
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "images/icons/boxing-ring-black.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "images/icons/boxing-ring.png"
+    background_color: "#263238"
+    theme_color: "#263238"
+
+# Generate icons running the following commands:
+#  dart run flutter_launcher_icons:main -f config/flutter_launcher_icons.yaml

@@ -1,0 +1,17 @@
+{
+  "roundAmountLabel": "Rounds",
+  "roundDurationLabel": "Duração do round (mm:ss)",
+  "restDurationLabel": "Descanso (mm:ss)",
+  "delayDurationLabel": "Preparação (ss)",
+  "roundWarningLabel": "Aviso final de round (ss)",
+  "restWarningLabel": "Aviso final de descanso (ss)",
+  "prepareLabel": "Prepare-se",
+  "restLabel": "Descanse",
+  "fightLabel": "Lute",
+  "startLabel": "Começar",
+  "timeLabel": "Tempo",
+  "endLabel": "Fim",
+  "roundLabel": "Round",
+  "appName": "Timer",
+  "timerTitle": "Round Timer"
+}

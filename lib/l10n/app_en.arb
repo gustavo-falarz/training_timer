@@ -1,0 +1,17 @@
+{
+  "roundAmountLabel": "Rounds",
+  "roundDurationLabel": "Round duration (mm:ss)",
+  "restDurationLabel": "Rest (mm:ss)",
+  "delayDurationLabel": "Preparation (ss)",
+  "roundWarningLabel": "End of round warning (ss)",
+  "restWarningLabel": "End of rest warning (ss)",
+  "prepareLabel": "Prepare",
+  "restLabel": "Rest",
+  "fightLabel": "Fight",
+  "startLabel": "Start",
+  "timeLabel": "Time",
+  "endLabel": "End",
+  "roundLabel": "Round",
+  "appName": "Timer",
+  "timerTitle":"Round Timer"
+}
