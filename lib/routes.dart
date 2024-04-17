@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:training_timer/ui/screens/finished_screen.dart';
 import 'package:training_timer/ui/screens/setup_screen.dart';
 import 'package:training_timer/ui/screens/timer_screen.dart';
 
@@ -11,6 +12,11 @@ final router = GoRouter(
       name: 'setup',
       path: SetupTimerScreen.path,
       builder: (context, state) => const SetupTimerScreen(),
+    ),
+    GoRoute(
+      name: 'finished',
+      path: FinishedScreen.path,
+      builder: (context, state) => const FinishedScreen(),
     ),
     GoRoute(
       name: 'timer',

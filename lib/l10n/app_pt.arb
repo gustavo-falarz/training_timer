@@ -12,5 +12,6 @@
   "labelRound": "Round",
   "titleSetup": "Definições",
   "titleTimer": "Cronômetro",
-  "labelDone": "Acabou!"
+  "labelDone": "Acabou!",
+  "labelRemake": "Refazer"
 }

@@ -13,11 +13,11 @@ void main() {
   );
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     KeepScreenOn.turnOn();
     return MaterialApp.router(
       routerConfig: router,
@@ -26,6 +26,9 @@ class MainApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       darkTheme: ThemeData(colorScheme: darkColorScheme),
       theme: ThemeData(colorScheme: lightColorScheme),
+      themeMode: ref.watch(themeProvider),
     );
   }
 }
+
+final themeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.light);

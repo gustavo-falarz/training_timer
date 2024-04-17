@@ -1,7 +1,9 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:training_timer/ui/screens/finished_screen.dart';
 
 import '../../locale/localization.dart';
 import '../../model/interval_model.dart';
@@ -18,7 +20,6 @@ class TimerScreen extends ConsumerStatefulWidget {
 }
 
 class _TimerScreenState extends ConsumerState<TimerScreen> {
-  final audioPlayer = AudioPlayer();
   var endBell = "sounds/end.ogg";
   var startBell = "sounds/start.ogg";
   var whistle = "sounds/whistle.ogg";
@@ -27,26 +28,25 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   var index = -1;
   int round = 0;
   var intervalName = '';
+  final assetsAudioPlayer = AssetsAudioPlayer();
+  int formerTime = 0;
 
-  Future<void> playStartBell() async {
-    Future.microtask(() {
-      audioPlayer.play(AssetSource(startBell));
-    });
-    // await audioPlayer.play(AssetSource(startBell));
+  void playBell() {
+    AssetsAudioPlayer.playAndForget(
+      Audio(startBell),
+    );
   }
 
-  Future<void> playWhistle() async {
-    Future.microtask(() {
-      audioPlayer.play(AssetSource(whistle));
-    });
-    // await audioPlayer.play(AssetSource(whistle));
+  void playWhistle() {
+    AssetsAudioPlayer.playAndForget(
+      Audio(whistle),
+    );
   }
 
-  Future<void> playEndBell() async {
-    Future.microtask(() {
-      audioPlayer.play(AssetSource(endBell));
-    });
-    // await audioPlayer.play(AssetSource(endBell));
+  void playEndBell() {
+    AssetsAudioPlayer.playAndForget(
+      Audio(endBell),
+    );
   }
 
   String _getIntervalName() {
@@ -126,14 +126,19 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
               debugPrint('Countdown Changed $timeStamp');
             },
             timeFormatterFunction: (defaultFormatterFunction, duration) {
-              _playSound(duration);
+              int durationIntSecs = duration.inSeconds;
+              if (durationIntSecs != formerTime) {
+                _playSound(durationIntSecs);
+              }
+              formerTime = durationIntSecs;
+
               return Function.apply(_defaultFormatterFunction, [duration]);
             },
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ElevatedButton(
+              FilledButton(
                 onPressed: () {
                   if (controller.isPaused) {
                     controller.resume();
@@ -143,7 +148,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                 },
                 child: const Icon(Icons.play_arrow),
               ),
-              ElevatedButton(
+              FilledButton(
                 onPressed: () {
                   if (!controller.isPaused) {
                     controller.pause();
@@ -151,7 +156,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                 },
                 child: const Icon(Icons.pause),
               ),
-              ElevatedButton(
+              FilledButton(
                 onPressed: () {
                   controller.reset();
                   Navigator.pop(context);
@@ -171,10 +176,11 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
       return;
     } else if (index == widget.intervals.length) {
       setState(() {
-        intervalName = 'Done';
+        intervalName = ref.watch(appLocalizationsProvider).labelDone;
         index = 0;
-        controller.pause();
+        context.pushReplacement(FinishedScreen.path);
       });
+      controller.reset();
     } else if (widget.intervals[index].type == IntervalType.round) {
       setState(() {
         round++;
@@ -188,23 +194,17 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
     });
   }
 
-  void _playSound(Duration currentDuration) {
+  void _playSound(int currentDuration) {
     if (index == -1) {
       return;
     }
 
     IntervalModel interval = widget.intervals[index];
-    if (interval.type != IntervalType.delay) {
-      if (currentDuration.inSeconds == interval.duration) {
-        playStartBell();
-      }
-      if (currentDuration.inSeconds == 0) {
-        playStartBell();
-      }
-      if (interval.warning != 0 &&
-          interval.warning == currentDuration.inSeconds) {
-        playWhistle();
-      }
+    if (currentDuration == 0) {
+      playBell();
+    }
+    if (interval.warning != 0 && interval.warning == currentDuration) {
+      playWhistle();
     }
   }
 
@@ -223,8 +223,6 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
   @override
   void dispose() {
-    audioPlayer.release();
-    audioPlayer.dispose();
     super.dispose();
   }
 

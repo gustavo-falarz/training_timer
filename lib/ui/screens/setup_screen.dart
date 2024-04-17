@@ -4,24 +4,22 @@ import 'package:go_router/go_router.dart';
 import 'package:training_timer/locale/localization.dart';
 import 'package:training_timer/ui/screens/timer_screen.dart';
 
+import '../../main.dart';
 import '../../model/interval_model.dart';
 import '../../model/timer_data.dart';
 import '../shared_widgets/double_field.dart';
 import '../shared_widgets/single_field.dart';
-
 
 class SetupTimerScreen extends ConsumerStatefulWidget {
   const SetupTimerScreen({super.key});
 
   static const String path = '/';
 
-
   @override
   ConsumerState<SetupTimerScreen> createState() => _SetupTimerScreenState();
 }
 
 class _SetupTimerScreenState extends ConsumerState<SetupTimerScreen> {
-
   int rounds = 6;
   int roundMin = 3;
   int roundSec = 0;
@@ -47,9 +45,29 @@ class _SetupTimerScreenState extends ConsumerState<SetupTimerScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(ref.read(appLocalizationsProvider).titleSetup),
+        actions: [
+          IconButton(
+            onPressed: () {
+              ThemeMode mode = ref.read(themeProvider);
+              if (mode == ThemeMode.light) {
+                ref
+                    .read(themeProvider.notifier)
+                    .update((state) => ThemeMode.dark);
+              } else {
+                ref
+                    .read(themeProvider.notifier)
+                    .update((state) => ThemeMode.light);
+              }
+            },
+            icon: Icon(
+              (ref.watch(themeProvider) == ThemeMode.light)
+                  ? Icons.dark_mode
+                  : Icons.light_mode,
+            ),
+          ),
+        ],
       ),
-      floatingActionButton:
-      FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           _startCountDown(context);
         },

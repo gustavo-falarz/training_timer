@@ -12,5 +12,6 @@
   "labelRound": "Round",
   "titleSetup": "Setup",
   "titleTimer": "Timer",
-  "labelDone": "Done!"
+  "labelDone": "Done!",
+  "labelRemake": "Remake"
 }
