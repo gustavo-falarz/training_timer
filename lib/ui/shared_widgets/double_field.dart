@@ -109,9 +109,11 @@ class DoubleField extends StatelessWidget {
 
   onPressDec() {
     var value = int.parse(_controllerMin.text);
-    value = value - 1;
-    _controllerMin.text = value.toString();
-    onTextChangedMin(value);
+    if (value > 0) {
+      value = value - 1;
+      _controllerMin.text = value.toString();
+      onTextChangedMin(value);
+    }
   }
 
   onPressInc() {

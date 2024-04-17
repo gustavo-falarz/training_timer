@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:training_timer/dimens.dart';
 import 'package:training_timer/ui/shared_widgets/icons.dart';
 
-
 class SingleField extends StatelessWidget {
   final Function onTextChanged;
   final String label;
@@ -81,9 +80,11 @@ class SingleField extends StatelessWidget {
 
   onPressDec() {
     var value = int.parse(_controller.text);
-    value = value - 1;
-    _controller.text = value.toString();
-    onTextChanged(value);
+    if (value > 0) {
+      value = value - 1;
+      _controller.text = value.toString();
+      onTextChanged(value);
+    }
   }
 
   onPressInc() {
