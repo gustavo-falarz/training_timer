@@ -42,5 +42,6 @@ flutter:
     - sounds/end.ogg
     - sounds/start.ogg
     - sounds/whistle.ogg
+    - packages/animated_emoji/lottie/fireworks.json
 
 

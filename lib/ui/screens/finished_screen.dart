@@ -30,6 +30,7 @@ class FinishedScreen extends ConsumerWidget {
             const Gap(50.0),
             const AnimatedEmoji(
               size: 180.0,
+              source: AnimatedEmojiSource.asset,
               AnimatedEmojis.fireworks,
             ),
             const Gap(50.0),
