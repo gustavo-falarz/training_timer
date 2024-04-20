@@ -7,6 +7,7 @@ import 'package:training_timer/ui/screens/timer_screen.dart';
 import '../../main.dart';
 import '../../model/interval_model.dart';
 import '../../model/timer_data.dart';
+import '../shared_widgets/adaptive_layouts.dart';
 import '../shared_widgets/double_field.dart';
 import '../shared_widgets/single_field.dart';
 
@@ -76,59 +77,62 @@ class _SetupTimerScreenState extends ConsumerState<SetupTimerScreen> {
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SingleField(
-              initialValue: rounds,
-              label: ref.read(appLocalizationsProvider).labelRoundAmount,
-              onTextChanged: (value) {
-                rounds = value;
-              },
-            ),
-            DoubleField(
-              initialValueMin: roundMin,
-              initialValueSec: roundSec,
-              label: ref.read(appLocalizationsProvider).labelRoundDuration,
-              onTextChangedMin: (value) {
-                roundMin = value;
-              },
-              onTextChangedSec: (value) {
-                roundSec = value;
-              },
-            ),
-            DoubleField(
-              initialValueMin: restMin,
-              initialValueSec: restSec,
-              label: ref.read(appLocalizationsProvider).labelRestDuration,
-              onTextChangedMin: (value) {
-                restMin = value;
-              },
-              onTextChangedSec: (value) {
-                restSec = value;
-              },
-            ),
-            SingleField(
-              initialValue: delay,
-              label: ref.read(appLocalizationsProvider).labelDelayDuration,
-              onTextChanged: (value) {
-                delay = value;
-              },
-            ),
-            SingleField(
-              initialValue: roundWarning,
-              label: ref.read(appLocalizationsProvider).labelRoundWarning,
-              onTextChanged: (value) {
-                roundWarning = value;
-              },
-            ),
-            SingleField(
-              initialValue: restWarning,
-              label: ref.read(appLocalizationsProvider).labelRestWarning,
-              onTextChanged: (value) {
-                restWarning = value;
-              },
-            ),
-          ],
+        child: AdaptiveFillContainer(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SingleField(
+                initialValue: rounds,
+                label: ref.read(appLocalizationsProvider).labelRoundAmount,
+                onTextChanged: (value) {
+                  rounds = value;
+                },
+              ),
+              DoubleField(
+                initialValueMin: roundMin,
+                initialValueSec: roundSec,
+                label: ref.read(appLocalizationsProvider).labelRoundDuration,
+                onTextChangedMin: (value) {
+                  roundMin = value;
+                },
+                onTextChangedSec: (value) {
+                  roundSec = value;
+                },
+              ),
+              DoubleField(
+                initialValueMin: restMin,
+                initialValueSec: restSec,
+                label: ref.read(appLocalizationsProvider).labelRestDuration,
+                onTextChangedMin: (value) {
+                  restMin = value;
+                },
+                onTextChangedSec: (value) {
+                  restSec = value;
+                },
+              ),
+              SingleField(
+                initialValue: delay,
+                label: ref.read(appLocalizationsProvider).labelDelayDuration,
+                onTextChanged: (value) {
+                  delay = value;
+                },
+              ),
+              SingleField(
+                initialValue: roundWarning,
+                label: ref.read(appLocalizationsProvider).labelRoundWarning,
+                onTextChanged: (value) {
+                  roundWarning = value;
+                },
+              ),
+              SingleField(
+                initialValue: restWarning,
+                label: ref.read(appLocalizationsProvider).labelRestWarning,
+                onTextChanged: (value) {
+                  restWarning = value;
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

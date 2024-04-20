@@ -2,11 +2,13 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:training_timer/ui/screens/finished_screen.dart';
 
 import '../../locale/localization.dart';
 import '../../model/interval_model.dart';
+import '../shared_widgets/adaptive_layouts.dart';
 
 class TimerScreen extends ConsumerStatefulWidget {
   final List<IntervalModel> intervals;
@@ -30,6 +32,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   var intervalName = '';
   final assetsAudioPlayer = AssetsAudioPlayer();
   int formerTime = 0;
+  bool isPlaying = false;
 
   void playBell() {
     AssetsAudioPlayer.playAndForget(
@@ -71,101 +74,127 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
         title: Text(ref.read(appLocalizationsProvider).titleTimer),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 30.0,
-          ),
-          Text(
-            '$round / ${_getRounds()}',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onBackground,
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            intervalName,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onBackground,
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          CircularCountDownTimer(
-            duration: duration,
-            initialDuration: duration,
-            controller: controller,
-            width: MediaQuery.of(context).size.width / 1.7,
-            height: 350.0,
-            ringColor: Theme.of(context).colorScheme.secondary,
-            ringGradient: null,
-            fillColor: Theme.of(context).colorScheme.secondaryContainer,
-            fillGradient: null,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            backgroundGradient: null,
-            strokeWidth: 20.0,
-            strokeCap: StrokeCap.round,
-            textStyle: const TextStyle(
-                fontSize: 40.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
-            isReverse: true,
-            isReverseAnimation: true,
-            isTimerTextShown: true,
-            autoStart: false,
-            onComplete: () {
-              _updateRound();
-              _updateIntervalName();
-              duration = widget.intervals[index].duration;
-              controller.restart(duration: duration);
-            },
-            onChange: (String timeStamp) {
-              debugPrint('Countdown Changed $timeStamp');
-            },
-            timeFormatterFunction: (defaultFormatterFunction, duration) {
-              int durationIntSecs = duration.inSeconds;
-              if (durationIntSecs != formerTime) {
-                _playSound(durationIntSecs);
-              }
-              formerTime = durationIntSecs;
-
-              return Function.apply(_defaultFormatterFunction, [duration]);
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: SingleChildScrollView(
+        child: AdaptiveFillContainer(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              FilledButton(
-                onPressed: () {
-                  if (controller.isPaused) {
-                    controller.resume();
-                  } else {
-                    controller.start();
-                  }
-                },
-                child: const Icon(Icons.play_arrow),
+              const SizedBox(
+                height: 30.0,
               ),
-              FilledButton(
-                onPressed: () {
-                  if (!controller.isPaused) {
-                    controller.pause();
-                  }
-                },
-                child: const Icon(Icons.pause),
+              Text(
+                '$round / ${_getRounds()}',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              FilledButton(
-                onPressed: () {
-                  controller.reset();
-                  Navigator.pop(context);
+              Text(
+                intervalName,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Gap(30.0),
+              CircularCountDownTimer(
+                duration: duration,
+                initialDuration: duration,
+                controller: controller,
+                width: MediaQuery.of(context).size.width / 1.7,
+                height: 350.0,
+                ringColor: Theme.of(context).colorScheme.secondary,
+                ringGradient: null,
+                fillColor: Theme.of(context).colorScheme.secondaryContainer,
+                fillGradient: null,
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundGradient: null,
+                strokeWidth: 20.0,
+                strokeCap: StrokeCap.round,
+                textStyle: const TextStyle(
+                    fontSize: 40.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+                isReverse: true,
+                isReverseAnimation: true,
+                isTimerTextShown: true,
+                autoStart: false,
+                onComplete: () {
+                  _updateRound();
+                  _updateIntervalName();
+                  duration = widget.intervals[index].duration;
+                  controller.restart(duration: duration);
                 },
-                child: const Icon(Icons.refresh),
+                onChange: (String timeStamp) {
+                  debugPrint('Countdown Changed $timeStamp');
+                },
+                timeFormatterFunction: (defaultFormatterFunction, duration) {
+                  int durationIntSecs = duration.inSeconds;
+                  if (durationIntSecs != formerTime) {
+                    _playSound(durationIntSecs);
+                  }
+                  formerTime = durationIntSecs;
+
+                  return Function.apply(_defaultFormatterFunction, [duration]);
+                },
+              ),
+              const Gap(50.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  FilledButton(
+                    style: (isPlaying)
+                        ? ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).disabledColor),
+                          )
+                        : null,
+                    onPressed: () {
+                      if (!isPlaying) {
+                        if (controller.isPaused) {
+                          controller.resume();
+                        } else {
+                          controller.start();
+                        }
+                        setState(() {
+                          isPlaying = true;
+                        });
+                      }
+                    },
+                    child: const Icon(Icons.play_arrow),
+                  ),
+                  FilledButton(
+                    style: (isPlaying)
+                        ? null
+                        : ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).disabledColor),
+                          ),
+                    onPressed: () {
+                      setState(() {
+                        if (!controller.isPaused) {
+                          controller.pause();
+                          isPlaying = false;
+                        }
+                      });
+                    },
+                    child: const Icon(Icons.pause),
+                  ),
+                  FilledButton(
+                    onPressed: () {
+                      controller.reset();
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(Icons.refresh),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
