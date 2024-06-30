@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:training_timer/fighter_picker.dart';
+import 'package:training_timer/model/match_model.dart';
+import 'package:training_timer/providers.dart';
 import 'package:training_timer/ui/screens/finished_screen.dart';
 
 import '../../locale/localization.dart';
@@ -68,6 +71,8 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<MatchModel> matches = ref.watch(matchesProvider);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -190,8 +195,45 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                     },
                     child: const Icon(Icons.refresh),
                   ),
+                  FilledButton(
+                    onPressed: () {
+                      pickMatches(ref);
+                    },
+                    child: const Icon(Icons.shuffle),
+                  ),
                 ],
               ),
+              const Gap(20.0),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: matches.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              '${matches[index].fighter1}',
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Icon(Icons.add_box_rounded),
+                            Text(
+                              '${matches[index].fighter2}',
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
             ],
           ),
         ),

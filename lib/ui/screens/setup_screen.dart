@@ -10,6 +10,7 @@ import '../../model/timer_data.dart';
 import '../shared_widgets/adaptive_layouts.dart';
 import '../shared_widgets/double_field.dart';
 import '../shared_widgets/single_field.dart';
+import 'fighters_screen.dart';
 
 class SetupTimerScreen extends ConsumerStatefulWidget {
   const SetupTimerScreen({super.key});
@@ -47,6 +48,9 @@ class _SetupTimerScreenState extends ConsumerState<SetupTimerScreen> {
         centerTitle: true,
         title: Text(ref.read(appLocalizationsProvider).titleSetup),
         actions: [
+          IconButton(onPressed: () {
+            context.push(FightersScreen.path);
+          }, icon: const Icon(Icons.person_add)),
           IconButton(
             onPressed: () {
               ThemeMode mode = ref.read(themeProvider);

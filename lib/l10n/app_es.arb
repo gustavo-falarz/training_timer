@@ -13,5 +13,6 @@
   "titleSetup": "Setup",
   "titleTimer": "Timer",
   "labelDone": "Done!",
-  "labelRemake": "Remake"
+  "labelRemake": "Remake",
+  "titleAddFighters": "Add fighters"
 }
