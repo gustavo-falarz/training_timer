@@ -35,6 +35,10 @@ class _FightersScreenState extends ConsumerState<FightersScreen> {
                 Expanded(
                   flex: 4,
                   child: TextField(
+                    autofillHints: const [AutofillHints.name],
+                    onSubmitted: (_){
+                      _addFighter();
+                    },
                     controller: _controller,
                   ),
                 ),
@@ -50,24 +54,26 @@ class _FightersScreenState extends ConsumerState<FightersScreen> {
                 )
               ],
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: fighters.length,
-              itemBuilder: (context, index) {
-                Fighter fighter = fighters[index];
-                return ListTile(
-                  leading: Text(
-                    fighter.id.toString(),
-                  ),
-                  title: Text(fighter.name),
-                  trailing: IconButton(
-                    onPressed: () {
-                      _removeFighter(fighter);
-                    },
-                    icon: const Icon(Icons.delete),
-                  ),
-                );
-              },
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: fighters.length,
+                itemBuilder: (context, index) {
+                  Fighter fighter = fighters[index];
+                  return ListTile(
+                    leading: Text(
+                      fighter.id.toString(),
+                    ),
+                    title: Text(fighter.name),
+                    trailing: IconButton(
+                      onPressed: () {
+                        _removeFighter(fighter);
+                      },
+                      icon: const Icon(Icons.delete),
+                    ),
+                  );
+                },
+              ),
             )
           ],
         ),
@@ -82,6 +88,7 @@ class _FightersScreenState extends ConsumerState<FightersScreen> {
       setState(() {
         Fighter f = Fighter(id: id, name: fighterName);
         ref.watch(fightersProvider.notifier).addFighter(f);
+        ref.watch(fightersProvider.notifier).resetMatches();
         ref.watch(fighterId.notifier).update(
               (state) => id + 1,
             );
@@ -93,6 +100,7 @@ class _FightersScreenState extends ConsumerState<FightersScreen> {
   void _removeFighter(Fighter fighter) {
     setState(() {
       ref.watch(fightersProvider.notifier).removeFighter(fighter);
+      ref.watch(fightersProvider.notifier).resetMatches();
       _controller.clear();
     });
   }

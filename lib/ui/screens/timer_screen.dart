@@ -104,13 +104,13 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Gap(30.0),
+              const Gap(10.0),
               CircularCountDownTimer(
                 duration: duration,
                 initialDuration: duration,
                 controller: controller,
                 width: MediaQuery.of(context).size.width / 1.7,
-                height: 350.0,
+                height: 230.0,
                 ringColor: Theme.of(context).colorScheme.secondary,
                 ringGradient: null,
                 fillColor: Theme.of(context).colorScheme.secondaryContainer,
@@ -204,6 +204,25 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                 ],
               ),
               const Gap(20.0),
+              Visibility(
+                visible: ref.watch(fighterOutProvider) != null,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.waving_hand_rounded),
+                    const Gap(5.0),
+                    Text(
+                      ref.watch(appLocalizationsProvider).fighterLefOut(
+                          ref.watch(fighterOutProvider)?.name ?? ''),
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Gap(20.0),
               ListView.builder(
                   shrinkWrap: true,
                   itemCount: matches.length,
@@ -212,21 +231,35 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text(
-                              '${matches[index].fighter1}',
-                              style: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                '${matches[index].fighter1}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                            const Icon(Icons.add_box_rounded),
-                            Text(
-                              '${matches[index].fighter2}',
-                              style: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
+                            Expanded(
+                              flex: 1,
+                              child: Image.asset(
+                                'images/icons/vs.png',
+                                height: 30,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                '${matches[index].fighter2}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             )
                           ],

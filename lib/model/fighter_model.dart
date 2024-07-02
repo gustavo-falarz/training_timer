@@ -1,6 +1,7 @@
 class Fighter{
   int id;
   String name;
+  List<Fighter> fought = [];
 
   Fighter({required this.id, required this.name});
 

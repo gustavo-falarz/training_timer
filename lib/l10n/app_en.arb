@@ -14,5 +14,15 @@
   "titleTimer": "Timer",
   "labelDone": "Done!",
   "labelRemake": "Remake",
-  "titleAddFighters": "Add fighters"
+  "titleAddFighters": "Add fighters",
+  "fighterLefOut": "Wait out: {userName}",
+  "@fighterLefOut": {
+    "description": "A welcome message",
+    "placeholders": {
+      "userName": {
+        "type": "String",
+        "example": "User"
+      }
+    }
+  }
 }

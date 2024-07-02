@@ -14,5 +14,15 @@
   "titleTimer": "Cronômetro",
   "labelDone": "Acabou!",
   "labelRemake": "Refazer",
-  "titleAddFighters": "Adicionar lutadores"
+  "titleAddFighters": "Adicionar lutadores",
+  "fighterLefOut": "Sobrando: {userName}",
+  "@fighterLefOut": {
+    "description": "A welcome message",
+    "placeholders": {
+      "userName": {
+        "type": "String",
+        "example": "User"
+      }
+    }
+  }
 }
