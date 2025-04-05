@@ -38,22 +38,33 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   bool isPlaying = false;
 
   void playBell() {
-    AssetsAudioPlayer.playAndForget(
+    assetsAudioPlayer.open(
       Audio(startBell),
+      audioFocusStrategy: const AudioFocusStrategy.request(
+        resumeAfterInterruption: true,
+        resumeOthersPlayersAfterDone: true,
+      ),
     );
+
+    // AssetsAudioPlayer.playAndForget(
+    //   Audio(startBell),
+    // );
   }
 
   void playWhistle() {
-    AssetsAudioPlayer.playAndForget(
+    assetsAudioPlayer.open(
       Audio(whistle),
+      audioFocusStrategy: const AudioFocusStrategy.request(
+        resumeAfterInterruption: true,
+        resumeOthersPlayersAfterDone: true,
+      ),
     );
+
+    // AssetsAudioPlayer.playAndForget(
+    //   Audio(whistle),
+    // );
   }
 
-  void playEndBell() {
-    AssetsAudioPlayer.playAndForget(
-      Audio(endBell),
-    );
-  }
 
   String _getIntervalName() {
     if (index == -1) {
@@ -159,7 +170,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                         : null,
                     onPressed: () {
                       if (!isPlaying) {
-                        if (controller.isPaused) {
+                        if (controller.isPaused.value) {
                           controller.resume();
                         } else {
                           controller.start();
@@ -180,7 +191,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                           ),
                     onPressed: () {
                       setState(() {
-                        if (!controller.isPaused) {
+                        if (!controller.isPaused.value) {
                           controller.pause();
                           isPlaying = false;
                         }
